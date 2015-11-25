@@ -1,0 +1,14 @@
+-- Exemple -- 
+
+Titre : note_28_novembre_2015
+
+Contenu : 
+
+Réalisations:
+
+- Mise en place de l'IHM (ajout des boutons ...)
+- /* ... */
+
+Problèmes : /* ... */
+
+Autres : /* ... */
