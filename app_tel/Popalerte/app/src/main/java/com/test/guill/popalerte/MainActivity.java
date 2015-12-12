@@ -1,16 +1,14 @@
 package com.test.guill.popalerte;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.util.Log;
 import android.widget.TabHost;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,6 +19,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        /*************************************
+         *
+         * comportement du TabHost
+         *
+         */
 
         final TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
 
@@ -42,6 +46,71 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /**************************************
+         *
+         * comportement de la boussole
+         *
+         */
+
+        final ImageView image_boussole;
+        image_boussole = (ImageView) findViewById(R.id.boussole);
+
+        image_boussole.setRotationX(image_boussole.getDrawable().getBounds().width() / 2);
+        image_boussole.setRotationY(image_boussole.getDrawable().getBounds().height() / 2);
+
+        Runnable myRunnable = new Runnable() {
+
+            Object mPauseLock = new Object();
+            boolean mPaused = false;
+            boolean mFinished = false;
+            float rot = 0;
+
+            @Override
+            public void run() {
+                while (!mFinished) {
+                    try {
+                        Thread.sleep(10); // Waits for 1 second (1000 milliseconds)
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    image_boussole.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.i("run image_boussole", "test");
+                            rot = rot + 1;
+                            image_boussole.setRotation(rot); //rotating from the first position
+                        }
+                    });
+                    synchronized (mPauseLock) {
+                        while (mPaused) {
+                            try {
+                                mPauseLock.wait();
+                            } catch (InterruptedException e) {
+                            }
+                        }
+                    }
+                }
+            }
+            public void onResume() {
+                synchronized (mPauseLock) {
+                    mPaused = true;
+                }
+            }
+            public void onPause() {
+                synchronized (mPauseLock) {
+                    mPaused = false;
+                    mPauseLock.notifyAll();
+                }
+            }
+        };
+        final Thread thread_boussole = new Thread(myRunnable);
+
+        /***********************************
+         *
+         * comportement des boutons des pages
+         *
+         */
+
         Button btn_indications, btn_consignes, btn_retour_indications, btn_retour_consignes;
 
         btn_indications = (Button) findViewById(R.id.indications_button);
@@ -49,6 +118,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 tabHost.setVisibility(View.GONE);
                 findViewById(R.id.Indications).setVisibility(View.VISIBLE);
+                if(!thread_boussole.isAlive())
+                    thread_boussole.start(); //démarre le thread de la boussole qui tourne
             }
         });
 
@@ -73,9 +144,35 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 tabHost.setVisibility(View.VISIBLE);
                 findViewById(R.id.Indications).setVisibility(View.GONE);
+                thread_boussole.interrupt();
             }
         });
 
+        /******************************
+         *
+         * l'image dans l'accueil du type d'alerte
+         *
+         */
+
+        ImageView image_type;
+
+        image_type = (ImageView) findViewById(R.id.type_image);
+        image_type.setImageResource(R.drawable.type_biohazard);
+
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //relancer le thread de la boussole
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //tuer le thread de la boussole
     }
 
     @Override

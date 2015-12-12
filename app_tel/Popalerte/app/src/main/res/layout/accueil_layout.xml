@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="311dp"
         android:layout_height="wrap_content"
-        android:text="Titre alerte"
+        android:text="@string/title_accueil"
         android:layout_gravity="center_horizontal"
         android:textAlignment="center"
         android:paddingBottom="10dp"
@@ -25,9 +25,10 @@
         <TextView
             android:layout_width="177dp"
             android:layout_height="match_parent"
-            android:text="Description de l'alerte"
+            android:text="@string/description_accueil"
             android:textSize="17dp"
             android:id="@+id/desc_view"
+            android:textColor="@color/black"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"/>
 
@@ -35,7 +36,9 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/type_image"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -47,7 +50,7 @@
 
         <Button
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:text="Consignes"
             android:id="@+id/consignes_button"
             android:layout_gravity="center"
@@ -56,7 +59,7 @@
 
         <Button
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:text="Indications"
             android:id="@+id/indications_button"
             android:layout_gravity="center"

@@ -6,19 +6,7 @@
     android:paddingBottom="10dp"
     android:weightSum="1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Titre Alerte"
-        android:id="@+id/titre_historique" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Type"
-        android:id="@+id/type_historique" />
+    <include layout="@layout/historique_item_layout"/>
 
 
 </LinearLayout>

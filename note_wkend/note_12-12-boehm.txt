@@ -1,0 +1,15 @@
+APP MOBILE :
+
+J'ai travaillé sur la page d'accueil avec les images de types d'alerte avec lesquelles je n'ai pas eu de problèmes
+
+J'ai travaillé sur la page d'indications :
+	tout d'abord j'ai voulu faire des tests pour voir comment s'y prendre pour afficher la boussole
+	j'ai reflechit longtemps et la solution que j'ai adopté été de prendre une image fixe et de lui affecter une rotation
+	j'ai donc créé l'image et cherché une solution pour la rotation que j'ai trouvé plutot difficilement.
+	
+	ensuite j'ai cherché comment concaténer deux chaines de caractère sans allourdir la logique Java, c'est a dire
+	en tout mettant dans les fichiers xml. j'ai trouvé sans trop de problèmes.
+
+	enfin j'ai essayé d'animer la boussole et de maitriser en même temps l'outils de threads... et la c'était le drame...
+	j'y ai passé environ 3h et je ne sais toujours pas comment tuer un thread... cela dis je sais comment les
+	lancer et faire des choses dedans, j'arrive a animer ma boussole mais le thread ne s'arrete jamais.

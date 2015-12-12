@@ -1,6 +1,12 @@
+<!DOCTYPE resources [
+    <!ENTITY distance "Distance :">
+]>
+
 <resources>
     <string name="app_name">Popalerte</string>
     <string name="action_settings">Paramètres</string>
     <string name="consignes">Des consignes balbleab,aegeafnobnfbaef\r\nzrbzbrugv\r\nzrbg\r\nzrbhz\r\nrbzr\r\nbzrbrzbzrovinzrfvuobzrgo zrg\r\nzrvrzobgozrbgizbrpogrzg\r\nrzgorzbfgorzbugozubrg</string>
-    <string name="indications_distance">Distance</string>
+    <string name="indications_distance">&distance; 120m</string>
+    <string name="title_accueil">Titre Alerte</string>
+    <string name="description_accueil">Description de l\'alerte</string>
 </resources>
