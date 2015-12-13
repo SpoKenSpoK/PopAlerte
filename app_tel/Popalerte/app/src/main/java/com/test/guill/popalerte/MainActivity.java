@@ -63,21 +63,21 @@ public class MainActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if(!alerte){
-                        findViewById(R.id.accueil_content_layout).post(new Runnable() {
+                    if(!alerte){ //que doit faire la page d'accueil si il y a une alerte ou pas
+                        findViewById(R.id.accueil_content_layout).post(new Runnable() { //requis
                             @Override
-                            public void run() {
-                                findViewById(R.id.accueil_content_layout_alerte).setVisibility(View.GONE);
-                                findViewById(R.id.accueil_content_layout_noAlerte).setVisibility(View.VISIBLE);
+                            public void run() { //si il n'y a pas d'alerte
+                                findViewById(R.id.accueil_content_layout_alerte).setVisibility(View.GONE); //cacher la page alerte
+                                findViewById(R.id.accueil_content_layout_noAlerte).setVisibility(View.VISIBLE); //afficher la page noAlerte
                             }
                         });
                     }
                     else{
-                        findViewById(R.id.accueil_content_layout).post(new Runnable() {
+                        findViewById(R.id.accueil_content_layout).post(new Runnable() { //requis
                             @Override
-                            public void run() {
-                                findViewById(R.id.accueil_content_layout_alerte).setVisibility(View.VISIBLE);
-                                findViewById(R.id.accueil_content_layout_noAlerte).setVisibility(View.GONE);
+                            public void run() { //si il y a une alerte
+                                findViewById(R.id.accueil_content_layout_alerte).setVisibility(View.VISIBLE); //afficher la page alerte
+                                findViewById(R.id.accueil_content_layout_noAlerte).setVisibility(View.GONE); //cacher la page noAlerte
                             }
                         });
                     }
@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        Thread thread_verifs = new Thread(verifs);
-        thread_verifs.start();
+        Thread thread_verifs = new Thread(verifs); //crée le thread de vérifications
+        thread_verifs.start(); //lance le thread de verifications
 
         /**************************************
          *
