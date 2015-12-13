@@ -9,4 +9,10 @@
     <string name="indications_distance">&distance; 120m</string>
     <string name="title_accueil">Titre Alerte</string>
     <string name="description_accueil">Description de l\'alerte</string>
+    <string name="image_type_desc">l\'image qui montre le type de l\'alerte</string>
+    <string name="button_consignes_in_accueil">Consignes</string>
+    <string name="button_indications_in_accueil">Indications</string>
+    <string name="button_retour_indications">retour</string>
+    <string name="boussole_image_desc">l\'image de la boussole qui tournera en fonction du GPS</string>
+    <string name="button_retour_consignes">retour</string>
 </resources>

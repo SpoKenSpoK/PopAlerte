@@ -14,9 +14,9 @@ import android.widget.TabHost;
 public class MainActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) { //cette fonction définie le comportement de l'application a son démarrage
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main); //la page par défaut est la page d'accueil
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -26,20 +26,21 @@ public class MainActivity extends AppCompatActivity {
          *
          */
 
-        final TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
+        final TabHost tabHost = (TabHost) findViewById(R.id.tabHost); //recupère le tabHost
 
-        tabHost.setup();
+        tabHost.setup(); //requis
 
-        TabHost.TabSpec tabSpec = tabHost.newTabSpec("Accueil");
+        TabHost.TabSpec tabSpec = tabHost.newTabSpec("Accueil"); //met la premiere tab dans le TabHost
         tabSpec.setContent(R.id.Accueil);
         tabSpec.setIndicator("Accueil");
         tabHost.addTab(tabSpec);
 
-        TabHost.TabSpec tabSpec2 =  tabHost.newTabSpec("historique");
+        TabHost.TabSpec tabSpec2 =  tabHost.newTabSpec("historique"); //met la deuxième tab dans le TabHost
         tabSpec2.setContent(R.id.Historique);
         tabSpec2.setIndicator("Historique");
         tabHost.addTab(tabSpec2);
 
+        //efface ce qu'il y avait d'affiché sur la page avant de changer de tab
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             public void onTabChanged(String tabID) {
                 tabHost.clearAnimation();
@@ -53,57 +54,40 @@ public class MainActivity extends AppCompatActivity {
          */
 
         final ImageView image_boussole;
-        image_boussole = (ImageView) findViewById(R.id.boussole);
+        image_boussole = (ImageView) findViewById(R.id.boussole);//crée et récupère l'image de la boussole
 
-        image_boussole.setRotationX(image_boussole.getDrawable().getBounds().width() / 2);
-        image_boussole.setRotationY(image_boussole.getDrawable().getBounds().height() / 2);
+        image_boussole.setRotationX(image_boussole.getDrawable().getBounds().width() / 2); //définie le point de rotation de l'image
+        image_boussole.setRotationY(image_boussole.getDrawable().getBounds().height() / 2);//de la boussole au centre de l'image
 
-        Runnable myRunnable = new Runnable() {
+        final Runnable myRunnable = new Runnable() { //runnable du thread de la boussole (fonction qui sera utilisé pour le thread)
 
-            Object mPauseLock = new Object();
-            boolean mPaused = false;
-            boolean mFinished = false;
-            float rot = 0;
+            float rot = 0; // réel de rotation contenant les degrés pour faire tourner la boussole
 
             @Override
-            public void run() {
-                while (!mFinished) {
+            public void run() { //la fonction qui va ettre appeler quand le thread sera lancé
+                /**************
+                 *
+                 * boucle while si la page d'indications est affiché
+                 *
+                 */
+                while (findViewById(R.id.Indications).getVisibility() == View.VISIBLE) {
                     try {
-                        Thread.sleep(10); // Waits for 1 second (1000 milliseconds)
+                        Thread.sleep(10); // attends pendant 10 millisecondes avant de refaire un tour de boucle
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    image_boussole.post(new Runnable() {
+                    image_boussole.post(new Runnable() { //fonction de l'image pour la faire tourner
                         @Override
                         public void run() {
-                            Log.i("run image_boussole", "test");
-                            rot = rot + 1;
-                            image_boussole.setRotation(rot); //rotating from the first position
-                        }
-                    });
-                    synchronized (mPauseLock) {
-                        while (mPaused) {
-                            try {
-                                mPauseLock.wait();
-                            } catch (InterruptedException e) {
+                            if(findViewById(R.id.Indications).getVisibility() == View.VISIBLE) {
+                                rot = rot + 1; //augmente les degrés de rotation de 1 pour fair tourner la boussole
+                                image_boussole.setRotation(rot); //fait tourner l'image de "rot" degrés depuis la premiere position
                             }
                         }
-                    }
-                }
-            }
-            public void onResume() {
-                synchronized (mPauseLock) {
-                    mPaused = true;
-                }
-            }
-            public void onPause() {
-                synchronized (mPauseLock) {
-                    mPaused = false;
-                    mPauseLock.notifyAll();
+                    });
                 }
             }
         };
-        final Thread thread_boussole = new Thread(myRunnable);
 
         /***********************************
          *
@@ -111,40 +95,44 @@ public class MainActivity extends AppCompatActivity {
          *
          */
 
+        //declaration des bouttons
         Button btn_indications, btn_consignes, btn_retour_indications, btn_retour_consignes;
 
+        //boutton de redirection vers les indactions depuis l'accueil
         btn_indications = (Button) findViewById(R.id.indications_button);
         btn_indications.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                tabHost.setVisibility(View.GONE);
-                findViewById(R.id.Indications).setVisibility(View.VISIBLE);
-                if(!thread_boussole.isAlive())
-                    thread_boussole.start(); //démarre le thread de la boussole qui tourne
+                tabHost.setVisibility(View.GONE); //cache l'accueil
+                findViewById(R.id.Indications).setVisibility(View.VISIBLE);//affiche le layout des indications
+                Thread thread_boussole = new Thread(myRunnable); //on ne peux pas relancer un thread arrété, il est donc recréé a chaque fois
+                thread_boussole.start(); //démarre le thread de la boussole qui tourne
             }
         });
 
+        //boutton de redirection vers les consignes depuis l'accueil
         btn_consignes = (Button) findViewById(R.id.consignes_button);
         btn_consignes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                tabHost.setVisibility(View.GONE);
-                findViewById(R.id.Consignes).setVisibility(View.VISIBLE);
+                tabHost.setVisibility(View.GONE); //cache l'accueil
+                findViewById(R.id.Consignes).setVisibility(View.VISIBLE);//affiche le layout des consignes
             }
         });
 
+        //boutton de retour vers l'accueil depuis les consignes
         btn_retour_consignes = (Button) findViewById(R.id.retour_consignes_button);
         btn_retour_consignes.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                tabHost.setVisibility(View.VISIBLE);
-                findViewById(R.id.Consignes).setVisibility(View.GONE);
+                tabHost.setVisibility(View.VISIBLE); //affiche l'accueil
+                findViewById(R.id.Consignes).setVisibility(View.GONE); //cache le layout des consignes
             }
         });
 
+        //boutton de retour vers l'accueil depuis les indications
         btn_retour_indications = (Button) findViewById(R.id.retour_indications_button);
         btn_retour_indications.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                tabHost.setVisibility(View.VISIBLE);
-                findViewById(R.id.Indications).setVisibility(View.GONE);
-                thread_boussole.interrupt();
+                tabHost.setVisibility(View.VISIBLE); //affiche l'accueil
+                findViewById(R.id.Indications).setVisibility(View.GONE); //cache le layout des indications
             }
         });
 
@@ -155,24 +143,21 @@ public class MainActivity extends AppCompatActivity {
          */
 
         ImageView image_type;
-
         image_type = (ImageView) findViewById(R.id.type_image);
         image_type.setImageResource(R.drawable.type_biohazard);
-
-
-
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume() { //fonction appelé quand on reviens sur l'application apres avoir tapé sur le boutton "home"
         super.onResume();
-        //relancer le thread de la boussole
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause() { //fonction appelé aprés avoir tapé sur le boutton "home"
         super.onPause();
-        //tuer le thread de la boussole
+        findViewById(R.id.tabHost).setVisibility(View.VISIBLE); //affiche l'accueil
+        findViewById(R.id.Indications).setVisibility(View.GONE); //cache le layout des indications
+        // afin d'éviter que le thread de la boussole continue en arriere plan
     }
 
     @Override
