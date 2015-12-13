@@ -1,0 +1,4 @@
+APP MOBILE :
+
+J'ai travaillé sur les threads que j'avais mis en attente, je m'y prennais mal, je voulais reprendre un thread existant alors que c'est impossible de redémarrer un thread finis. J'ai donc trouvé la solution en recéant un thread a chaque fois que je vais sur la page indications.
+

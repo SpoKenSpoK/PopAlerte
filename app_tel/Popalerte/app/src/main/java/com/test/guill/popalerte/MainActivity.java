@@ -8,10 +8,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.util.Log;
 import android.widget.TabHost;
 
 public class MainActivity extends AppCompatActivity {
+    private boolean alerte = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { //cette fonction définie le comportement de l'application a son démarrage
@@ -46,6 +46,47 @@ public class MainActivity extends AppCompatActivity {
                 tabHost.clearAnimation();
             }
         });
+
+        /************************
+         *
+         * thread qui effectuera des verifications régulières par rapport au arréviées de données et autres
+         *
+         */
+
+        final Runnable verifs = new Runnable() { //runnable du thread de la boussole (fonction qui sera utilisé pour le thread)
+
+            @Override
+            public void run() { //la fonction qui va ettre appeler quand le thread sera lancé
+                while (true){ //le thread doit toujours etre actif
+                    try {
+                        Thread.sleep(1000); // attends pendant 1 seconde avant de refaire un tour de boucle
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if(!alerte){
+                        findViewById(R.id.accueil_content_layout).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                findViewById(R.id.accueil_content_layout_alerte).setVisibility(View.GONE);
+                                findViewById(R.id.accueil_content_layout_noAlerte).setVisibility(View.VISIBLE);
+                            }
+                        });
+                    }
+                    else{
+                        findViewById(R.id.accueil_content_layout).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                findViewById(R.id.accueil_content_layout_alerte).setVisibility(View.VISIBLE);
+                                findViewById(R.id.accueil_content_layout_noAlerte).setVisibility(View.GONE);
+                            }
+                        });
+                    }
+                }
+            }
+        };
+
+        Thread thread_verifs = new Thread(verifs);
+        thread_verifs.start();
 
         /**************************************
          *
@@ -98,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         //declaration des bouttons
         Button btn_indications, btn_consignes, btn_retour_indications, btn_retour_consignes;
 
-        //boutton de redirection vers les indactions depuis l'accueil
+        //boutton de redirection vers les indications depuis l'accueil
         btn_indications = (Button) findViewById(R.id.indications_button);
         btn_indications.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -176,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            alerte = !alerte;
             return true;
         }
 
