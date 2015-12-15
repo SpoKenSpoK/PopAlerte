@@ -8,7 +8,7 @@
     <string name="consignes">Consignes de sécurités marquées ici.</string>
     <string name="indications_distance">&distance; 120m</string>
     <string name="title_accueil">Titre Alerte</string>
-    <string name="title_accueil_empty">Il n\'y a aucune alerte en cour dans votre secteur</string>
+    <string name="title_accueil_empty">Aucune alerte à signaler dans votre secteur.</string>
     <string name="description_accueil">Description de l\'alerte</string>
     <string name="image_type_desc">l\'image qui montre le type de l\'alerte</string>
     <string name="button_consignes_in_accueil">Consignes</string>

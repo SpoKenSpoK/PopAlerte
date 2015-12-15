@@ -1,5 +1,6 @@
 package com.test.guill.popalerte;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TabHost;
+import android.os.Vibrator;
 
 public class MainActivity extends AppCompatActivity {
     private boolean alerte = false;
@@ -138,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
         //declaration des bouttons
         Button btn_indications, btn_consignes, btn_retour_indications, btn_retour_consignes;
+        final Vibrator vibe = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 
         //boutton de redirection vers les indications depuis l'accueil
         btn_indications = (Button) findViewById(R.id.indications_button);
@@ -147,6 +150,13 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.Indications).setVisibility(View.VISIBLE);//affiche le layout des indications
                 Thread thread_boussole = new Thread(myRunnable); //on ne peux pas relancer un thread arrété, il est donc recréé a chaque fois
                 thread_boussole.start(); //démarre le thread de la boussole qui tourne
+
+                // Start without a delay
+                // Vibrate for 100 milliseconds
+                // Sleep for 1000 milliseconds
+                long[] pattern = {0, 100, 1000};
+
+                vibe.vibrate(300);
             }
         });
 
@@ -185,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView image_type;
         image_type = (ImageView) findViewById(R.id.type_image);
-        image_type.setImageResource(R.drawable.type_biohazard);
+        image_type.setImageResource(R.drawable.type_incendie);
     }
 
     @Override
