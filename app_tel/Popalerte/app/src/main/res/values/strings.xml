@@ -3,9 +3,9 @@
 ]>
 
 <resources>
-    <string name="app_name">Popalerte</string>
+    <string name="app_name">PopAlerte</string>
     <string name="action_settings">Paramètres</string>
-    <string name="consignes">Des consignes balbleab,aegeafnobnfbaef\r\nzrbzbrugv\r\nzrbg\r\nzrbhz\r\nrbzr\r\nbzrbrzbzrovinzrfvuobzrgo zrg\r\nzrvrzobgozrbgizbrpogrzg\r\nrzgorzbfgorzbugozubrg</string>
+    <string name="consignes">Consignes de sécurités marquées ici.</string>
     <string name="indications_distance">&distance; 120m</string>
     <string name="title_accueil">Titre Alerte</string>
     <string name="title_accueil_empty">Il n\'y a aucune alerte en cour dans votre secteur</string>

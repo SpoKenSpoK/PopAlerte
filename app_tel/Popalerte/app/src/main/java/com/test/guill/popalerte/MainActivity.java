@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         tabHost.setup(); //requis
 
-        TabHost.TabSpec tabSpec = tabHost.newTabSpec("Accueil"); //met la premiere tab dans le TabHost
+        TabHost.TabSpec tabSpec = tabHost.newTabSpec("accueil"); //met la premiere tab dans le TabHost
         tabSpec.setContent(R.id.Accueil);
         tabSpec.setIndicator("Accueil");
         tabHost.addTab(tabSpec);
