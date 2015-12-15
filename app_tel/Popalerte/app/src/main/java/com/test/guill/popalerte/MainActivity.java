@@ -113,12 +113,16 @@ public class MainActivity extends AppCompatActivity {
                  * boucle while si la page d'indications est affiché
                  *
                  */
+
+
                 while (findViewById(R.id.Indications).getVisibility() == View.VISIBLE) {
                     try {
                         Thread.sleep(10); // attends pendant 10 millisecondes avant de refaire un tour de boucle
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+
+
                     image_boussole.post(new Runnable() { //fonction de l'image pour la faire tourner
                         @Override
                         public void run() {
@@ -140,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
 
         //declaration des bouttons
         Button btn_indications, btn_consignes, btn_retour_indications, btn_retour_consignes;
-        final Vibrator vibe = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 
         //boutton de redirection vers les indications depuis l'accueil
         btn_indications = (Button) findViewById(R.id.indications_button);
@@ -150,13 +153,6 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.Indications).setVisibility(View.VISIBLE);//affiche le layout des indications
                 Thread thread_boussole = new Thread(myRunnable); //on ne peux pas relancer un thread arrété, il est donc recréé a chaque fois
                 thread_boussole.start(); //démarre le thread de la boussole qui tourne
-
-                // Start without a delay
-                // Vibrate for 100 milliseconds
-                // Sleep for 1000 milliseconds
-                long[] pattern = {0, 100, 1000};
-
-                vibe.vibrate(300);
             }
         });
 
@@ -166,6 +162,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 tabHost.setVisibility(View.GONE); //cache l'accueil
                 findViewById(R.id.Consignes).setVisibility(View.VISIBLE);//affiche le layout des consignes
+
+                Vibrator vibe = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+                //delay, virbation_time, delay, ...
+                long[] pattern = {0, 1000, 500, 1000, 500};
+                vibe.vibrate(pattern, -1);
             }
         });
 
@@ -185,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 tabHost.setVisibility(View.VISIBLE); //affiche l'accueil
                 findViewById(R.id.Indications).setVisibility(View.GONE); //cache le layout des indications
             }
+
         });
 
         /******************************
