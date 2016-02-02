@@ -11,9 +11,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.os.Vibrator;
+import android.util.Log;
+import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity {
-    private boolean alerte = false;
+    private boolean alerte = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { //cette fonction définie le comportement de l'application a son démarrage
@@ -23,10 +25,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         /*************************************
-         *
          * comportement du TabHost
-         *
-         */
+         ****************************/
 
         final TabHost tabHost = (TabHost) findViewById(R.id.tabHost); //recupère le tabHost
 
@@ -50,10 +50,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /************************
-         *
          * thread qui effectuera des verifications régulières par rapport au arréviées de données et autres
-         *
-         */
+         ***********************/
 
         final Runnable verifs = new Runnable() { //runnable du thread de la boussole (fonction qui sera utilisé pour le thread)
 
@@ -90,11 +88,16 @@ public class MainActivity extends AppCompatActivity {
         Thread thread_verifs = new Thread(verifs); //crée le thread de vérifications
         thread_verifs.start(); //lance le thread de verifications
 
+        /***********************************
+         * comportement des boutons des pages
+         **************/
+
+        //declaration des bouttons
+        Button btn_indications, btn_consignes, btn_retour_indications, btn_retour_consignes;
+
         /**************************************
-         *
          * comportement de la boussole
-         *
-         */
+         **************************/
 
         final ImageView image_boussole;
         image_boussole = (ImageView) findViewById(R.id.boussole);//crée et récupère l'image de la boussole
@@ -102,59 +105,53 @@ public class MainActivity extends AppCompatActivity {
         image_boussole.setRotationX(image_boussole.getDrawable().getBounds().width() / 2); //définie le point de rotation de l'image
         image_boussole.setRotationY(image_boussole.getDrawable().getBounds().height() / 2);//de la boussole au centre de l'image
 
-        final Runnable myRunnable = new Runnable() { //runnable du thread de la boussole (fonction qui sera utilisé pour le thread)
-
-            float rot = 0; // réel de rotation contenant les degrés pour faire tourner la boussole
-
-            @Override
-            public void run() { //la fonction qui va ettre appeler quand le thread sera lancé
-                /**************
-                 *
-                 * boucle while si la page d'indications est affiché
-                 *
-                 */
-
-
-                while (findViewById(R.id.Indications).getVisibility() == View.VISIBLE) {
-                    try {
-                        Thread.sleep(10); // attends pendant 10 millisecondes avant de refaire un tour de boucle
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-
-                    image_boussole.post(new Runnable() { //fonction de l'image pour la faire tourner
-                        @Override
-                        public void run() {
+        //boutton de redirection vers les indications depuis l'accueil
+        btn_consignes = (Button) findViewById(R.id.indications_button);
+        btn_consignes.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Runnable r = new Runnable() { //runnable du thread de la boussole (fonction qui sera utilisé pour le thread)
+                    float rot = 0; // réel de rotation contenant les degrés pour faire tourner la boussole
+                    boolean end = false;
+                    @Override
+                    public void run() { //la fonction qui va ettre appeler quand le thread sera lancé
+                        /**************
+                         * boucle while si la page d'indications est affiché
+                         ***********/
+                        try {
+                            Thread.sleep(500); // attends pendant 10 millisecondes avant de refaire un tour de boucle
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        while (!end) {
                             if(findViewById(R.id.Indications).getVisibility() == View.VISIBLE) {
-                                rot = rot + 1; //augmente les degrés de rotation de 1 pour fair tourner la boussole
-                                image_boussole.setRotation(rot); //fait tourner l'image de "rot" degrés depuis la premiere position
+                                try {
+                                    Thread.sleep(10); // attends pendant 10 millisecondes avant de refaire un tour de boucle
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                image_boussole.post(new Runnable() { //fonction de l'image pour la faire tourner
+                                    @Override
+                                    public void run() {
+                                        rot = rot + 1; //augmente les degrés de rotation de 1 pour fair tourner la boussole
+                                        image_boussole.setRotation(rot); //fait tourner l'image de "rot" degrés depuis la premiere position
+                                    }
+                                });
+                            }
+                            else{
+                                end = true;
                             }
                         }
-                    });
-                }
-            }
-        };
+                    }
+                };
+                Thread boussole_thread = new Thread(r);
+                boussole_thread.start();
 
-        /***********************************
-         *
-         * comportement des boutons des pages
-         *
-         */
-
-        //declaration des bouttons
-        Button btn_indications, btn_consignes, btn_retour_indications, btn_retour_consignes;
-
-        //boutton de redirection vers les indications depuis l'accueil
-        btn_indications = (Button) findViewById(R.id.indications_button);
-        btn_indications.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
                 tabHost.setVisibility(View.GONE); //cache l'accueil
                 findViewById(R.id.Indications).setVisibility(View.VISIBLE);//affiche le layout des indications
-                Thread thread_boussole = new Thread(myRunnable); //on ne peux pas relancer un thread arrété, il est donc recréé a chaque fois
-                thread_boussole.start(); //démarre le thread de la boussole qui tourne
             }
         });
+
+        /**********************************/
 
         //boutton de redirection vers les consignes depuis l'accueil
         btn_consignes = (Button) findViewById(R.id.consignes_button);
@@ -190,10 +187,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /******************************
-         *
          * l'image dans l'accueil du type d'alerte
-         *
-         */
+         ************************/
 
         ImageView image_type;
         image_type = (ImageView) findViewById(R.id.type_image);
