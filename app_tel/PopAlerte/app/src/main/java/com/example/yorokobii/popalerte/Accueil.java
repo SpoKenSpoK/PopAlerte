@@ -82,7 +82,7 @@ public class Accueil extends AppCompatActivity {
                         });
                     }
                     try {
-                        Thread.sleep(1000); // attends pendant 1 seconde avant de refaire un tour de boucle
+                        Thread.sleep(100); // attends pendant 1 seconde avant de refaire un tour de boucle
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
