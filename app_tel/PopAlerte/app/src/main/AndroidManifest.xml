@@ -18,14 +18,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Consignes"
             android:label="@string/title_activity_consignes"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName="com.example.yorokobii.popalerte.Accueil">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.example.yorokobii.popalerte.Accueil" />
+        </activity>
+
         <activity
             android:name=".Indications"
             android:label="@string/title_activity_indications"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName="com.example.yorokobii.popalerte.Accueil">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.yorokobii.popalerte.Accueil" />
+        </activity>
     </application>
 
 </manifest>
