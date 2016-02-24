@@ -1,0 +1,112 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ptut_sdis30.popalerte">
+
+    <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="23"/>
+
+    <!-- [START PERMISSIONS] -->
+
+    <!-- [START gcm_permission] -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- [END gcm_permission] -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <permission android:name="ptut_sdis30.popalerte.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="ptut_sdis30.popalerte.permission.C2D_MESSAGE" />
+
+    <!-- [END PERMISSIONS] -->
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- Activité Acceuil -->
+        <activity
+            android:name="ptut_sdis30.popalerte.Accueil"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Activité Consignes -->
+        <activity
+            android:name="ptut_sdis30.popalerte.Consignes"
+            android:label="@string/title_activity_consignes"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName="ptut_sdis30.popalerte.Accueil">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ptut_sdis30.popalerte.Accueil" />
+        </activity>
+
+        <!-- Activité Indications -->
+        <activity
+            android:name="ptut_sdis30.popalerte.Indications"
+            android:label="@string/title_activity_indications"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName="ptut_sdis30.popalerte.Accueil">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ptut_sdis30.popalerte.Accueil" />
+        </activity>
+
+
+
+        <!-- [START gcm_receiver] -->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="ptut_sdis30.popalerte" />
+            </intent-filter>
+        </receiver>
+        <!-- [END gcm_receiver] -->
+
+
+
+        <!-- [START gcm_listener] -->
+        <service
+            android:name="ptut_sdis30.popalerte.MyGcmListenerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <!-- [END gcm_listener] -->
+
+        <!-- [START instanceId_listener] -->
+        <service
+            android:name="ptut_sdis30.popalerte.MyInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID"/>
+            </intent-filter>
+        </service>
+        <!-- [END instanceId_listener] -->
+
+        <service
+            android:name="ptut_sdis30.popalerte.RegistrationIntentService"
+            android:exported="false">
+        </service>
+
+
+    </application>
+
+
+
+
+</manifest>
