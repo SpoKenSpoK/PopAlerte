@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences sharedPreferences =
                         PreferenceManager.getDefaultSharedPreferences(context);
                 boolean sentToken = sharedPreferences
-                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+                        .getBoolean(QuickStartPreferences.SENT_TOKEN_TO_SERVER, false);
                 if (sentToken) {
                     mInformationTextView.setText(getString(R.string.gcm_send_message));
                 } else {
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
-                new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
+                new IntentFilter(QuickStartPreferences.REGISTRATION_COMPLETE));
     }
 
     @Override
@@ -90,3 +90,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+
