@@ -39,6 +39,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.yorokobii.popalerte.Accueil" />
         </activity>
+
+
     </application>
 
 </manifest>

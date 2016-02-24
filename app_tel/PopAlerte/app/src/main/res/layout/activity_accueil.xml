@@ -25,3 +25,4 @@
     <include layout="@layout/content_accueil" />
 
 </android.support.design.widget.CoordinatorLayout>
+
