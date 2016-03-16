@@ -19,7 +19,7 @@
 
 
 
-    <!--<string name="">637475100826</string> -->
+    <!-- <string name="gcm_defaultSenderId">637475100826</string> -->
     <string name="gcm_send_message">Token généré et envoyé au serveur, vous pouvez maintenant envoyer des messages
     à cette application</string>
     <string name="registering_message">Génération du token...</string>

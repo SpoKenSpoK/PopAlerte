@@ -7,16 +7,23 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
 public class RegistrationIntentService extends IntentService {
 
     private static final String TAG = "RegIntentService";
-    private static final String[] TOPICS = {"global"};
+
+    private static final String REGISTER_URL = "http://192.168.1.30/gcm/register.php";
+
+    private static final String KEY_TOKEN = "gcm_token";
 
     public RegistrationIntentService() {
         super(TAG);
@@ -27,29 +34,28 @@ public class RegistrationIntentService extends IntentService {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         try {
-            // [START register_for_gcm]
-            // Initially this call goes out to the network to retrieve the token, subsequent calls
-            // are local.
-            // R.string.gcm_defaultSenderId (the Sender ID) is typically derived from google-services.json.
-            // See https://developers.google.com/cloud-messaging/android/start for details on this file.
-            // [START get_token]
-            InstanceID instanceID = InstanceID.getInstance(this);
-            String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
-                    GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-            // [END get_token]
-            Log.i(TAG, "GCM Registration Token: " + token);
+            // In the (unlikely) event that multiple refresh operations occur simultaneously,
+            // ensure that they are processed sequentially.
+            synchronized (TAG) {
+                // [START register_for_gcm]
+                // Initially this call goes out to the network to retrieve the token, subsequent calls
+                // are local.
+                InstanceID instanceID = InstanceID.getInstance(this);
 
-            // : Implement this method to send any registration to your app's servers.
-            sendRegistrationToServer(token);
+                String token = instanceID.getToken(getString(R.string.gcm_defaultSenderId),
+                        GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
 
-            // Subscribe to topic channels
-            subscribeTopics(token);
+                Log.i(TAG, "GCM Registration Token: " + token);
 
-            // You should store a boolean that indicates whether the generated token has been
-            // sent to your server. If the boolean is false, send the token to your server,
-            // otherwise your server should have already received the token.
-            sharedPreferences.edit().putBoolean(QuickStartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
-            // [END register_for_gcm]
+                // Si le token a déjà été engistre pas la peine de le renvoyer
+                if (!sharedPreferences.getBoolean(QuickStartPreferences.SENT_TOKEN_TO_SERVER, false))
+                    sendRegistrationToServer(token);
+
+                // You should store a boolean that indicates whether the generated token has been
+                // sent to your server. If the boolean is false, send the token to your server,
+                // otherwise your server should have already received the token.
+                sharedPreferences.edit().putBoolean(QuickStartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
+            }
         } catch (Exception e) {
             Log.d(TAG, "Failed to complete token refresh", e);
             // If an exception happens while fetching the new token or updating our registration data
@@ -61,18 +67,31 @@ public class RegistrationIntentService extends IntentService {
         LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
     }
 
+    /**
+     *  Ici nous allons envoyer le token de l'utilisateur au serveur
+     *
+     * @param token Le token
+     */
+    private void sendRegistrationToServer(String token) {
 
-private void sendRegistrationToServer(String token) {
-    // Add custom implementation, as needed.
-}
+        OkHttpClient client = new OkHttpClient();
 
-    // [START subscribe_topics]
-    private void subscribeTopics(String token) throws IOException {
-        GcmPubSub pubSub = GcmPubSub.getInstance(this);
-        for (String topic : TOPICS) {
-            pubSub.subscribe(token, "/topics/" + topic, null);
+        RequestBody requestBody = new FormEncodingBuilder()
+                .add(KEY_TOKEN, token)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(REGISTER_URL)
+                .post(requestBody)
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
-    // [END subscribe_topics]
 
 }
