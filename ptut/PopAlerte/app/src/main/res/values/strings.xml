@@ -1,5 +1,3 @@
-<!DOCTYPE resources [<!ENTITY distance "Distance :">]>
-
 <resources>
     <string name="app_name">PopAlerte</string>
     <string name="action_settings">Simulate Alert</string>
@@ -14,7 +12,7 @@
     <string name="boussole_image_desc">l\'image de la boussole qui tournera en fonction du GPS</string>
     <string name="title_activity_indications">Indications</string>
     <string name="title_activity_consignes">Consignes</string>
-    <string name="indications_distance">&distance; 120m</string>
+    <string name="indications_distance">Distance : Unknown</string>
 
 
 
