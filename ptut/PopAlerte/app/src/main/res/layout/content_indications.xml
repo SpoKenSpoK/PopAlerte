@@ -27,6 +27,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/textDistance"
                 android:textColor="@color/black"
                 android:paddingLeft="20dp"
                 android:text="@string/indications_distance"/>
@@ -37,11 +38,19 @@
 
         <ImageView
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/boussole_image_desc"
             android:id="@+id/boussole"
             android:src="@drawable/boussole"
             android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textAideIndication"
+            android:textColor="@color/black"
+            android:paddingLeft="20dp"
+            android:text="Veuillez suivre la direction indiquée par la flèche noire."/>
 
     </LinearLayout>
 

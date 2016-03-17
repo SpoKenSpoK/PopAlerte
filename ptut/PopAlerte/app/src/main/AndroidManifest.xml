@@ -18,6 +18,12 @@
     <permission android:name="ptut_sdis30.popalerte.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
     <uses-permission android:name="ptut_sdis30.popalerte.permission.C2D_MESSAGE" />
+
+    <uses-feature android:name="android.hardware.location" android:required="true" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
+    <uses-feature android:name="android.hardware.sensor.compass" android:required="true" />
+    
     <!-- [END PERMISSIONS] -->
 
 
