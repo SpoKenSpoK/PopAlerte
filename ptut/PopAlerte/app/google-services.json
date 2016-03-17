@@ -11,23 +11,11 @@
         "client_id": "android:ptut_sdis30.popalerte",
         "client_type": 1,
         "android_client_info": {
-          "package_name": "ptut_sdis30.popalerte"
+          "package_name": "ptut_sdis30.popalerte",
+          "certificate_hash": []
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "637475100826-g44un4328a13briu4bold1hdhnvkmu0p.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ptut_sdis30.popalerte",
-            "certificate_hash": "49D737D0F6250B92FDDD96F5E0F6C97846B5E8D8"
-          }
-        },
-        {
-          "client_id": "637475100826-ueck2sjd6uvdoan7gtobajkcqbtfr3sm.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [],
       "services": {
         "analytics_service": {
@@ -42,7 +30,39 @@
           "other_platform_oauth_client": []
         },
         "google_signin_service": {
-          "status": 2
+          "status": 1
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:637475100826:android:d91b9dd8669e1b5c",
+        "client_id": "android:ptut_sdis30.popalert",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "ptut_sdis30.popalert",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 2,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 1
         },
         "ads_service": {
           "status": 1
