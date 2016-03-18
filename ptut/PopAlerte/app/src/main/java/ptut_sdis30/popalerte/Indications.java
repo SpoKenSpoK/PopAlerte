@@ -29,7 +29,7 @@ public class Indications extends AppCompatActivity implements SensorEventListene
 
     private double Clong = 10.0d;
     private double Clat = 60.0d;
-    private float rayon_alerte = 10.0f; //rayon de l'alerte en metres
+    private float rayon_alerte = 1400.0f; //rayon de l'alerte en metres
 
     private double Nordlong = Clong;
     private double Nordlat = 90.0d;
@@ -85,7 +85,7 @@ public class Indications extends AppCompatActivity implements SensorEventListene
         VecY = (VecY * 111000.32f); //111.32 km
 
         float distCentre = (float)Math.sqrt((float)(Math.pow(VecX, 2.0f) + Math.pow(VecY, 2.0f)));
-        distance_sortie = distCentre;
+        distance_sortie = rayon_alerte - distCentre;
 
         text.setText("Distance : " + distance_sortie + " mètres");
     }
