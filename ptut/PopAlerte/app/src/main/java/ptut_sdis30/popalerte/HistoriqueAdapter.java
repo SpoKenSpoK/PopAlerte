@@ -1,6 +1,7 @@
 package ptut_sdis30.popalerte;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ class HistoriqueAdapter extends ArrayAdapter<HistoriqueItem> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         LayoutInflater itemInflater = LayoutInflater.from(getContext());
         View historiqueView = itemInflater.inflate(R.layout.historique_item, parent, false);
 
