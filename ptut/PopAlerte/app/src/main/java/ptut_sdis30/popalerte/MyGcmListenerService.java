@@ -14,7 +14,11 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 
+
+
 public class MyGcmListenerService extends GcmListenerService {
+
+    dbHandler dbhandler;
 
     private static final String TAG = "MyGcmListenerService";
 
@@ -30,10 +34,20 @@ public class MyGcmListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
 
+        dbhandler = new dbHandler(this, null);
+
         String message = data.getString("message");
+        String notif_head = "VOUS ÊTES EN DANGER !";
         String title = data.getString("title");
+        //String Total = data.getString("total"); //string valant true ou false disant si le message reçu est l'alerte totale ou non
+
+
         Log.d(TAG, "From: " + from);
-        Log.d(TAG, "Message: " + message);
+        //Log.d(TAG, "Message: " + message);
+
+        Alerte alerte = new Alerte(title, message);
+        dbhandler.addAlerte(alerte);
+
 
         if (from.startsWith("/topics/")) {
             // message received from some topic.
@@ -41,7 +55,7 @@ public class MyGcmListenerService extends GcmListenerService {
             // normal downstream message.
         }
 
-        Alerte_info new_alerte = new Alerte_info();
+        //Alerte_info new_alerte = new Alerte_info();
         //Global.alertes.add(new_alerte);
 
         // [START_EXCLUDE]
@@ -59,7 +73,7 @@ public class MyGcmListenerService extends GcmListenerService {
         int compt = 500000; //compteur pour limiter les notifications
         do {
             if (compt == 500000) {
-                sendNotification(message, title);
+                sendNotification("Alerte : " + title, notif_head);
                 compt = 0;
             }
             compt++;

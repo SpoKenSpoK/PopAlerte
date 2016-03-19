@@ -153,7 +153,7 @@
 
                     <ListView
                         android:layout_width="match_parent"
-                        android:layout_height="400dp"
+                        android:layout_height="300dp"
                         android:id="@+id/historique_list_view"
                         android:listSelector="@android:color/transparent"></ListView>
 

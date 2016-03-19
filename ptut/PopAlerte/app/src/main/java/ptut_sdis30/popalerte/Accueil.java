@@ -161,17 +161,14 @@ public class Accueil extends AppCompatActivity {
     }
 
     public void Consignes(View view){
+        dbhandler.deleteAlerte();
+        printItem();
         Intent i = new Intent(this, Consignes.class);
         startActivity(i);
     }
 
     public void Indications(View view){
-/*
-        Vibrator vibe = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-        //delay, virbation_time, delay, ...
-        long[] pattern = {0, 1000, 500, 1000, 500};
-        vibe.vibrate(pattern, -1);
-*/
+        printItem();
         Intent i = new Intent(this, Indications.class);
         startActivity(i);
     }

@@ -62,7 +62,7 @@ public class dbHandler extends SQLiteOpenHelper{
 
         while(!c.isAfterLast()){
             if(c.getString(c.getColumnIndex(COLUMN_ALERTE_NAME))!=null){
-                itemTab[c.getPosition()] = new HistoriqueItem(c.getString(c.getColumnIndex(COLUMN_ALERTE_NAME)) + c.getPosition(), c.getString(c.getColumnIndex(COLUMN_ALERTE_DESC)) + c.getPosition());
+                itemTab[c.getPosition()] = new HistoriqueItem(c.getString(c.getColumnIndex(COLUMN_ALERTE_NAME)), c.getString(c.getColumnIndex(COLUMN_ALERTE_DESC)));
             }
             c.moveToNext();
         }
