@@ -27,7 +27,7 @@ public class RegistrationIntentService extends IntentService {
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
 
-    private static final String REGISTER_URL = "http://84.6.98.29:8888/gcm/registerToken.php";
+    private static final String REGISTER_URL = "http://popalerte-pzv8.livehost.fr/registerToken.php";/*"http://192.168.1.28/gcm/registerToken.php";*/
 
     private static final String KEY_TOKEN = "gcm_token";
 
