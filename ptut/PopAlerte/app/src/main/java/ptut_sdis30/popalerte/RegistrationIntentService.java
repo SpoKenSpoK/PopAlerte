@@ -27,7 +27,7 @@ public class RegistrationIntentService extends IntentService {
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
 
-    private static final String REGISTER_URL = "http://popalerte-pzv8.livehost.fr/registerToken.php";/*"http://192.168.1.28/gcm/registerToken.php";*/
+    private static final String REGISTER_URL = "http://popalerte-pzv8.livehost.fr/gcm/registerToken.php";/*"http://192.168.1.28/gcm/registerToken.php";*/
 
     private static final String KEY_TOKEN = "gcm_token";
 
@@ -98,6 +98,8 @@ public class RegistrationIntentService extends IntentService {
 
         try {
             Response response = client.newCall(request).execute();
+            Log.d(TAG, "Response : " + response);
+
 
         } catch (IOException e) {
             e.printStackTrace();
