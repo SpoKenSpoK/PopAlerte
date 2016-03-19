@@ -1,6 +1,10 @@
 package ptut_sdis30.popalerte;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -8,6 +12,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,11 +27,14 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.lang.Math;
 
 public class Indications extends AppCompatActivity implements SensorEventListener, LocationListener {
 
     TextView text;
+    public boolean bdialog = false;
 
     private double Clong = 10.0d;
     private double Clat = 60.0d;
@@ -107,7 +116,9 @@ public class Indications extends AppCompatActivity implements SensorEventListene
 
     public void Retour(View view){
         Intent i = new Intent(this, Accueil.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
+        finish();
     }
 
     @Override
@@ -161,6 +172,14 @@ public class Indications extends AppCompatActivity implements SensorEventListene
             mPointer.startAnimation(ra);
             mCurrentDegree = -azimuthInDegress;
         }
+        else if(!bdialog){
+            CharSequence text = "Le magnetimetre n'est pas disponible, seule la distance de sortie sera affichée.";
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(this, text, duration);
+            toast.show();
+            bdialog = true;
+        }
     }
 
     @Override
@@ -206,7 +225,18 @@ public class Indications extends AppCompatActivity implements SensorEventListene
             if ( Build.VERSION.SDK_INT >= 23 &&
                     ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                throw new Error("permissions not grandeed");
+
+                CharSequence text = "Veuillez activer la localisation dans les paramètres de votre téléphone.";
+                int duration = Toast.LENGTH_LONG;
+
+                Toast toast = Toast.makeText(this, text, duration);
+                toast.show();
+
+                Intent i = new Intent(this, Accueil.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
+
             }
 
             locationManager = (LocationManager) this
@@ -282,7 +312,16 @@ public class Indications extends AppCompatActivity implements SensorEventListene
             if ( Build.VERSION.SDK_INT >= 23 &&
                     ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission( context, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                throw new Error("Permissions not grandeed");
+                CharSequence text = "Veuillez activer la localisation dans les paramètres de votre téléphone.";
+                int duration = Toast.LENGTH_LONG;
+
+                Toast toast = Toast.makeText(this, text, duration);
+                toast.show();
+
+                Intent i = new Intent(this, Accueil.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
             }
             locationManager.removeUpdates(this);
         }
