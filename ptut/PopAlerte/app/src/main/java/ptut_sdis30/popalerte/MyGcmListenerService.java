@@ -29,7 +29,7 @@ public class MyGcmListenerService extends GcmListenerService {
     public void onMessageReceived(String from, Bundle data) {
 
         String message = data.getString("message");
-        String title = data.getString("titile");
+        String title = data.getString("title");
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
 
