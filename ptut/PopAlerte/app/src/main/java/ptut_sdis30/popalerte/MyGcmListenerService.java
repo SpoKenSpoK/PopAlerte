@@ -4,9 +4,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -29,7 +31,7 @@ public class MyGcmListenerService extends GcmListenerService {
     public void onMessageReceived(String from, Bundle data) {
 
         String message = data.getString("message");
-        String title = data.getString("titile");
+        String title = data.getString("title");
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
 
@@ -37,10 +39,10 @@ public class MyGcmListenerService extends GcmListenerService {
             // message received from some topic.
         } else {
             // normal downstream message.
-
-
-
         }
+
+        Alerte_info new_alerte = new Alerte_info();
+        //Global.alertes.add(new_alerte);
 
         // [START_EXCLUDE]
         /**
@@ -54,7 +56,15 @@ public class MyGcmListenerService extends GcmListenerService {
          * In some cases it may be useful to show a notification indicating to the user
          * that a message was received.
          */
-        sendNotification(message, title);
+        int compt = 500000; //compteur pour limiter les notifications
+        do {
+            if (compt == 500000) {
+                sendNotification(message, title);
+                compt = 0;
+            }
+            compt++;
+        }
+        while(!Global.notificationOK);
         // [END_EXCLUDE]
     }
     // [END receive_message]
@@ -70,13 +80,14 @@ public class MyGcmListenerService extends GcmListenerService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri uri = Uri.parse(PreferenceManager.getDefaultSharedPreferences(this).
+                getString("pref_tone", "content://settings/system/notification_sound"));
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_stat_ic_notification)
+                .setSmallIcon(R.drawable.logo)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setAutoCancel(false)
-                .setSound(defaultSoundUri)
+                .setSound(uri)
                 .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager =

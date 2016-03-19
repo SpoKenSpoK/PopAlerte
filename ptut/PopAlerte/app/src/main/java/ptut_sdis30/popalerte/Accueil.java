@@ -24,7 +24,6 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 
 public class Accueil extends AppCompatActivity {
-
     //
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "Acceuil";
@@ -44,6 +43,8 @@ public class Accueil extends AppCompatActivity {
         setContentView(R.layout.activity_accueil);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Global.notificationOK = true;
 
         //
         //mRegistrationProgressBar = (ProgressBar) findViewById(R.id.registrationProgressBar);
