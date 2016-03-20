@@ -115,6 +115,7 @@ public class Indications extends AppCompatActivity implements SensorEventListene
     }
 
     public void Retour(View view){
+        stopUsingGPS(this);
         Intent i = new Intent(this, Accueil.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);

@@ -162,13 +162,11 @@ public class Accueil extends AppCompatActivity {
 
     public void Consignes(View view){
         dbhandler.deleteAlerte();
-        printItem();
         Intent i = new Intent(this, Consignes.class);
         startActivity(i);
     }
 
     public void Indications(View view){
-        printItem();
         Intent i = new Intent(this, Indications.class);
         startActivity(i);
     }
@@ -181,13 +179,11 @@ public class Accueil extends AppCompatActivity {
                 new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
     }
 
-
     @Override
     protected void onPause() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
     }
-
 
     /**
      * Check the device to make sure it has the Google Play Services APK. If
@@ -209,10 +205,6 @@ public class Accueil extends AppCompatActivity {
         }
         return true;
     }
-
-
-    //
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
